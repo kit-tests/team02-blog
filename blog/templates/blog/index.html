@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  My Blog
+{% endblock %}
+
+{% block css_files %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'blog/cc-game.css' %}">
+  <link rel="stylesheet" href="{% static 'blog/whack_a_mole.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include "blog/calendar_popup.html" %}
+{% include "blog/cc_game_popup.html" %}
+{% include "blog/whack_a_mole_popup.html" %}
+
+<section class="hero-card">
+  <p class="eyebrow">Tech Bootcamp Project</p>
+  <h1>Welcome to Team02 Blog</h1>
+  <p class="hero-subtext">
+    Exploring Django, Python, and the beautiful chaos of development.
+  </p>
+
+  <div class="quick-actions" aria-label="Quick links">
+    <a class="btn btn-soft" href="https://www.accenture.com/jp-ja" target="_blank" rel="noopener noreferrer">ACN</a>
+    <a class="btn btn-soft" href="{% url 'about-page' %}">About</a>
+    <a class="btn btn-primary" href="#blog-section">Read My Posts</a>
+  </div>
+</section>
+
+<!-- Blog Posts Section -->
+{% if posts %}
+<section id="blog-section" class="blog-section" aria-label="Blog posts">
+  <div class="section-header">
+    <h2 class="section-title">Latest Blog Posts</h2>
+    <p class="section-subtitle">Insights on web development, security, and coding adventures</p>
+    {% if perms.blog.add_post %}
+      <a class="create-post-link" href="{% url 'post-create-page' %}">Make New Post</a>
+    {% endif %}
+  </div>
+  
+  <div class="blog-grid" role="list">
+    {% for post in posts %}
+    <article class="blog-card" role="listitem">
+      <div class="blog-card-image">
+        {% if "django" in post.slug %}
+          <img src="{% static 'blog/django-project.svg' %}" alt="Django project illustration" class="card-image">
+        {% elif "cybersecurity" in post.slug %}
+          <img src="{% static 'blog/cybersecurity.svg' %}" alt="Cybersecurity illustration" class="card-image">
+        {% elif "tokyo" in post.slug or "osaka" in post.slug %}
+          <img src="{% static 'blog/touzai.png' %}" alt="Tokyo and Osaka comparison" class="card-image">
+        {% else %}
+          <img src="{% static 'blog/confused-dev.svg' %}" alt="Developer illustration" class="card-image">
+        {% endif %}
+      </div>
+      <div class="blog-card-content">
+        <h3 class="blog-card-title">{{ post.title }}</h3>
+        {% if post.publish_date %}
+          <p class="blog-date">Date: {{ post.publish_date|date:"M j, Y" }}</p>
+        {% endif %}
+        <p class="blog-card-excerpt">
+          {{ post.content|truncatewords:25 }}
+        </p>
+        <a href="{% url 'post-details-page' slug=post.slug %}" class="read-more-link" aria-label="Read full post: {{ post.title }}">
+          Read Full Post →
+        </a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<style>
+  .create-post-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+    min-height: 46px;
+    padding: 0 18px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #132b37, #20728a);
+    color: #fff;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .create-post-link:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+  }
+</style>
+
+{% endblock %}

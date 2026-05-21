@@ -1,0 +1,328 @@
+{% extends "base.html" %}
+{% load static %}
+{% load emoji_reactions %}
+
+{% block title %}
+  {{ post.title }}
+{% endblock %}
+
+{% block content %}
+  <article class="post-detail">
+    <!-- Post Header -->
+    <div class="post-header">
+      <div class="post-header-image">
+        {% if "django" in post.slug %}
+          <img src="{% static 'blog/django-project.svg' %}" alt="Django project illustration" class="post-hero-image">
+        {% elif "cybersecurity" in post.slug %}
+          <img src="{% static 'blog/cybersecurity.svg' %}" alt="Cybersecurity illustration" class="post-hero-image">
+        {% elif "tokyo" in post.slug or "osaka" in post.slug %}
+          <img src="{% static 'blog/touzai.png' %}" alt="Tokyo and Osaka comparison" class="post-hero-image">
+        {% else %}
+          <img src="{% static 'blog/confused-dev.svg' %}" alt="Developer illustration" class="post-hero-image">
+        {% endif %}
+      </div>
+      
+      <div class="post-title-container">
+        <h1 class="post-title">{{ post.title }}</h1>
+        <div class="post-meta">
+          <span class="post-date" aria-label="Published date">📝 Tech Bootcamp Article</span>
+          <span class="post-category" aria-label="Category">🚀 Development</span>
+        </div>
+        {% if perms.blog.change_post or perms.blog.delete_post %}
+          <div class="post-admin-actions">
+            {% if perms.blog.change_post %}
+              <a href="{% url 'post-edit-page' post.slug %}" class="edit-post-link">Edit this post</a>
+            {% endif %}
+            {% if perms.blog.delete_post %}
+              <form method="post" action="{% url 'post-delete-page' post.slug %}" class="delete-post-form" onsubmit="return window.confirm('Delete this post permanently?');">
+                {% csrf_token %}
+                <button type="submit" class="delete-post-button">Delete post</button>
+              </form>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Post Content -->
+    <div class="post-content">
+      <p class="post-body">
+        {{ post.content }}
+      </p>
+    </div>
+
+    <!-- Emoji Reactions -->
+    <div class="post-reactions">
+      {% reaction_widget post %}
+    </div>
+
+    {% if user.is_authenticated %}
+      {% include "blog/post_chatbox.html" %}
+    {% else %}
+      <p>You need to <a href="{% url 'login' %}">log in</a> to join this post chat.</p>
+    {% endif %}
+
+    <!-- Post Footer -->
+    <div class="post-footer">
+      <hr class="divider">
+      <p class="post-description">
+        This article is part of the Tech Bootcamp Exercise 3 project, showcasing Django blog functionality 
+        with dynamic content management, database integration, and template rendering.
+      </p>
+      <div class="post-navigation">
+        <a href="{% url 'starting-page' %}" class="back-link">← Back to Home</a>
+        <a href="{% url 'about-page' %}" class="related-link">Learn More About Me →</a>
+      </div>
+    </div>
+  </article>
+
+  <style>
+    .post-detail {
+      animation: fade-up 600ms ease both;
+    }
+
+    .post-header {
+      background: linear-gradient(135deg, #f0f4f8 0%, #e8f0f6 100%);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: center;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(10, 43, 54, 0.08);
+    }
+
+    .post-header-image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
+    }
+
+    .post-hero-image {
+      max-width: 100%;
+      height: auto;
+      max-height: 300px;
+    }
+
+    .post-title-container {
+      padding: 20px;
+    }
+
+    .post-admin-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .delete-post-form {
+      margin: 0;
+    }
+
+    .edit-post-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: #132b37;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .edit-post-link:hover {
+      background: #1d4253;
+    }
+
+    .edit-post-link:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .delete-post-button {
+      min-height: 42px;
+      padding: 10px 16px;
+      border: 2px solid #8a1c1c;
+      border-radius: 999px;
+      background: #ffffff;
+      color: #8a1c1c;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .delete-post-button:hover {
+      background: #8a1c1c;
+      color: #ffffff;
+    }
+
+    .delete-post-button:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .post-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin: 0 0 16px;
+      color: #132b37;
+      line-height: 1.2;
+    }
+
+    .post-meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .post-date,
+    .post-category {
+      font-size: 0.95rem;
+      color: #4b6673;
+      font-weight: 600;
+    }
+
+    .post-content {
+      background: linear-gradient(180deg, #ffffff, #f9fbfd);
+      border: 1px solid #cfe0e6;
+      border-radius: 12px;
+      padding: 36px;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 12px rgba(10, 43, 54, 0.06);
+    }
+
+    .post-body {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #132b37;
+      margin: 0;
+      text-align: justify;
+    }
+
+    .post-footer {
+      margin-top: 40px;
+    }
+
+    .divider {
+      border: none;
+      border-top: 2px solid #cfe0e6;
+      margin: 0 0 24px;
+    }
+
+    .post-description {
+      background: #f9fbfd;
+      border-left: 4px solid var(--brand);
+      padding: 20px;
+      border-radius: 8px;
+      color: #4b6673;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0 0 24px;
+    }
+
+    .post-navigation {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .back-link,
+    .related-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 700;
+      transition: all 200ms ease;
+      font-size: 0.95rem;
+    }
+
+    .back-link {
+      background: #f0f4f8;
+      color: var(--brand);
+      border: 2px solid var(--brand);
+    }
+
+    .back-link:hover {
+      background: var(--brand);
+      color: #fff;
+      transform: translateX(-4px);
+    }
+
+    .related-link {
+      background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+      color: #fff;
+      border: 2px solid transparent;
+    }
+
+    .related-link:hover {
+      transform: translateX(4px);
+      box-shadow: 0 8px 20px rgba(117, 0, 192, 0.28);
+    }
+
+    .back-link:focus-visible,
+    .related-link:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .post-header {
+        grid-template-columns: 1fr;
+        padding: 24px;
+        gap: 20px;
+      }
+
+      .post-header-image {
+        min-height: 250px;
+      }
+
+      .post-hero-image {
+        max-height: 250px;
+      }
+
+      .post-content {
+        padding: 24px;
+      }
+
+      .post-title {
+        font-size: 1.8rem;
+      }
+
+      .post-body {
+        font-size: 1rem;
+        text-align: left;
+      }
+
+      .post-navigation {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .back-link,
+      .related-link {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+{% endblock %}
