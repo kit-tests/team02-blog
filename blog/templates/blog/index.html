@@ -45,7 +45,9 @@
     {% for post in posts %}
     <article class="blog-card" role="listitem">
       <div class="blog-card-image">
-        {% if "django" in post.slug %}
+        {% if post.slug == "my-first-django-project" %}
+          <img src="{% static 'blog/pic.jpg' %}" alt="Osaka gourmate" class="card-image">
+        {% elif "django" in post.slug %}
           <img src="{% static 'blog/django-project.svg' %}" alt="Django project illustration" class="card-image">
         {% elif "cybersecurity" in post.slug %}
           <img src="{% static 'blog/cybersecurity.svg' %}" alt="Cybersecurity illustration" class="card-image">

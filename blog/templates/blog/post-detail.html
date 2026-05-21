@@ -11,7 +11,9 @@
     <!-- Post Header -->
     <div class="post-header">
       <div class="post-header-image">
-        {% if "django" in post.slug %}
+        {% if post.slug == "my-first-django-project" %}
+          <img src="{% static 'blog/pic.jpg' %}" alt="Osaka gourmate" class="post-hero-image">
+        {% elif "django" in post.slug %}
           <img src="{% static 'blog/django-project.svg' %}" alt="Django project illustration" class="post-hero-image">
         {% elif "cybersecurity" in post.slug %}
           <img src="{% static 'blog/cybersecurity.svg' %}" alt="Cybersecurity illustration" class="post-hero-image">
