@@ -50,7 +50,12 @@
         </div>
 
         <div class="form-actions">
-          <button type="submit" class="save-button">{{ submit_label }}</button>
+          <button type="submit" class="save-button" aria-label="{{ submit_label }}">
+            <svg class="save-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4 3h12l4 4v14H4V3zm2 2v14h12V8.2L15.2 5H6zm2 0h6v5H8V5zm1 8h6a2 2 0 0 1 2 2v4H7v-4a2 2 0 0 1 2-2z"></path>
+            </svg>
+            <span>{{ submit_label }}</span>
+          </button>
           {% if post %}
             <a href="{% url 'post-details-page' post.slug %}" class="cancel-link">Cancel</a>
           {% else %}
@@ -168,6 +173,13 @@
       background: linear-gradient(135deg, #132b37, #20728a);
       color: #ffffff;
       cursor: pointer;
+      gap: 10px;
+    }
+
+    .save-icon {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
     }
 
     .cancel-link {

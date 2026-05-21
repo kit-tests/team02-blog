@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load blog_extras %}
 
 {% block title %}
   My Blog
@@ -44,6 +45,11 @@
   <div class="blog-grid" role="list">
     {% for post in posts %}
     <article class="blog-card" role="listitem">
+      <button type="button" class="bookmark-icon-button" aria-label="Save {{ post.title }}">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M7 3a2 2 0 0 0-2 2v16l7-4 7 4V5a2 2 0 0 0-2-2H7zm0 2h10v12.55l-5-2.86-5 2.86V5z"></path>
+        </svg>
+      </button>
       <div class="blog-card-image">
         {% if post.slug == "my-first-django-project" %}
           <img src="{% static 'blog/pic.jpg' %}" alt="Osaka gourmate" class="card-image">
@@ -62,6 +68,7 @@
         {% if post.publish_date %}
           <p class="blog-date">Date: {{ post.publish_date|date:"M j, Y" }}</p>
         {% endif %}
+        <p class="blog-date">{{ post.content|reading_time }}</p>
         <p class="blog-card-excerpt">
           {{ post.content|truncatewords:25 }}
         </p>
@@ -76,6 +83,44 @@
 {% endif %}
 
 <style>
+  .blog-card {
+    position: relative;
+  }
+
+  .bookmark-icon-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(19, 43, 55, 0.86);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    transition: transform 140ms ease, background 140ms ease;
+  }
+
+  .bookmark-icon-button svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+
+  .bookmark-icon-button:hover {
+    transform: translateY(-1px);
+    background: rgba(32, 114, 138, 0.96);
+  }
+
+  .bookmark-icon-button:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+  }
+
   .create-post-link {
     display: inline-flex;
     align-items: center;
