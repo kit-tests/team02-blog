@@ -214,7 +214,7 @@ html[data-theme='dark'] .panel-card,
 html[data-theme='dark'] .blog-card,
 html[data-theme='dark'] .list-item,
 html[data-theme='dark'] .post-content {
-  background-color: var(--card-bg);
+  background: var(--card-bg);
   color: var(--card-text);
   border-color: var(--border);
 }
@@ -222,6 +222,17 @@ html[data-theme='dark'] .post-content {
 html[data-theme='dim'] .post-header,
 html[data-theme='dark'] .post-header {
   background: linear-gradient(135deg, var(--surface), var(--surface-soft));
+}
+
+html[data-theme='dim'] .post-content,
+html[data-theme='dark'] .post-content {
+  background: var(--card-bg) !important;
+  border-color: var(--border) !important;
+}
+
+html[data-theme='dim'] .post-body,
+html[data-theme='dark'] .post-body {
+  color: var(--card-text) !important;
 }
 
 html[data-theme='dim'] .post-title-container,
@@ -340,6 +351,42 @@ html[data-theme='dark'] .btn-soft:focus-visible {
 html[data-theme='dim'] .login-form-container,
 html[data-theme='dark'] .login-form-container {
   background: linear-gradient(180deg, var(--surface), var(--surface-soft));
+}
+
+html[data-theme='dim'] .post-edit-card,
+html[data-theme='dark'] .post-edit-card {
+  background: linear-gradient(180deg, var(--surface), var(--surface-soft));
+  border-color: var(--border);
+}
+
+html[data-theme='dim'] .post-edit-header h1,
+html[data-theme='dim'] .form-row label,
+html[data-theme='dim'] .cancel-link,
+html[data-theme='dark'] .post-edit-header h1,
+html[data-theme='dark'] .form-row label,
+html[data-theme='dark'] .cancel-link {
+  color: var(--card-text);
+}
+
+html[data-theme='dim'] .post-edit-header p,
+html[data-theme='dark'] .post-edit-header p {
+  color: var(--muted-text);
+}
+
+html[data-theme='dim'] .form-row input,
+html[data-theme='dim'] .form-row textarea,
+html[data-theme='dark'] .form-row input,
+html[data-theme='dark'] .form-row textarea {
+  background: var(--card-bg);
+  color: var(--card-text);
+  border-color: var(--border);
+}
+
+html[data-theme='dim'] .form-row input:focus,
+html[data-theme='dim'] .form-row textarea:focus,
+html[data-theme='dark'] .form-row input:focus,
+html[data-theme='dark'] .form-row textarea:focus {
+  border-color: var(--brand);
 }
 
 html[data-theme='dim'] .login-branding,

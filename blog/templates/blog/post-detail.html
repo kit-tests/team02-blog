@@ -172,7 +172,7 @@
     .post-title {
       font-size: clamp(2rem, 4vw, 3rem);
       margin: 0 0 16px;
-      color: #132b37;
+      color: var(--text);
       line-height: 1.2;
     }
 
@@ -186,13 +186,13 @@
     .post-date,
     .post-category {
       font-size: 0.95rem;
-      color: #4b6673;
+      color: var(--muted);
       font-weight: 600;
     }
 
     .post-content {
-      background: linear-gradient(180deg, #ffffff, #f9fbfd);
-      border: 1px solid #cfe0e6;
+      background: linear-gradient(180deg, var(--surface), var(--surface-soft));
+      border: 1px solid var(--border);
       border-radius: 12px;
       padding: 36px;
       margin-bottom: 32px;
@@ -202,7 +202,7 @@
     .post-body {
       font-size: 1.05rem;
       line-height: 1.8;
-      color: #132b37;
+      color: var(--text);
       margin: 0;
       text-align: justify;
     }
@@ -213,16 +213,16 @@
 
     .divider {
       border: none;
-      border-top: 2px solid #cfe0e6;
+      border-top: 2px solid var(--border);
       margin: 0 0 24px;
     }
 
     .post-description {
-      background: #f9fbfd;
+      background: var(--surface-soft);
       border-left: 4px solid var(--brand);
       padding: 20px;
       border-radius: 8px;
-      color: #4b6673;
+      color: var(--muted);
       font-size: 0.95rem;
       line-height: 1.6;
       margin: 0 0 24px;

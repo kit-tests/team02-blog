@@ -75,8 +75,8 @@
 
     .post-edit-card {
       width: min(100%, 860px);
-      background: linear-gradient(180deg, #ffffff, #f5fbfc);
-      border: 1px solid #cfe0e6;
+      background: linear-gradient(180deg, var(--surface), var(--surface-soft));
+      border: 1px solid var(--border);
       border-radius: 20px;
       box-shadow: 0 18px 44px rgba(10, 43, 54, 0.08);
       padding: 32px;
@@ -84,11 +84,11 @@
 
     .post-edit-header h1 {
       margin: 0 0 12px;
-      color: #132b37;
+      color: var(--text);
     }
 
     .post-edit-header p {
-      color: #4b6673;
+      color: var(--muted);
       line-height: 1.6;
       margin: 0 0 10px;
     }
@@ -113,25 +113,25 @@
     }
 
     .form-row label {
-      color: #132b37;
+      color: var(--text);
       font-weight: 700;
     }
 
     .form-row input,
     .form-row textarea {
       width: 100%;
-      border: 1px solid #9db4be;
+      border: 1px solid var(--border);
       border-radius: 12px;
       padding: 14px 16px;
       font: inherit;
-      color: #132b37;
-      background: #ffffff;
+      color: var(--text);
+      background: var(--surface);
     }
 
     .form-row input:focus,
     .form-row textarea:focus {
       outline: 3px solid rgba(32, 114, 138, 0.22);
-      border-color: #20728a;
+      border-color: var(--brand);
     }
 
     .form-row textarea {
@@ -183,9 +183,18 @@
     }
 
     .cancel-link {
-      border: 2px solid #132b37;
-      color: #132b37;
+      border: 2px solid var(--text);
+      color: var(--text);
       background: transparent;
+    }
+
+    html[data-theme='dim'] .form-row input,
+    html[data-theme='dim'] .form-row textarea,
+    html[data-theme='dark'] .form-row input,
+    html[data-theme='dark'] .form-row textarea {
+      background: var(--card-bg) !important;
+      color: var(--card-text) !important;
+      border-color: var(--border) !important;
     }
 
     .save-button:focus-visible,
